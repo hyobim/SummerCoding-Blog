@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" th:action="@{/new-post}" th:object="${postForm}">
+    <label for="id">ID : </label>
+    <input type="text" name="id" id="id" th:field="*{id}">
+    <small th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></small>
+
+    <label for="title">제목 : </label>
+    <input type="text" name="title" id="title" th:field="*{title}">
+    <small th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></small>
+
+    <label for="description">내용 : </label>
+    <input type="text" name="description" id="description" th:field="*{description}">
+    <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></small>
+
+    <button type="submit" name="submit" value="value">글쓰기</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" th:action="@{/posts/edit-post/{id}(id=${postForm.id})}" th:object="${postForm}">
+    <label for="id">ID : </label>
+    <input type="text" name="id" id="id" th:field="*{id}">
+
+    <label for="title">제목 : </label>
+    <input type="text" name="title" id="title" th:field="*{title}">
+
+    <label for="description">내용 : </label>
+    <input type="text" name="description" id="description" th:field="*{description}">
+
+    <button type="submit" name="submit" value="value">수정하기</button>
+</form>
+</body>
+</html>
