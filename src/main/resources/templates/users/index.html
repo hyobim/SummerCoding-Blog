@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>이름</th>
+            <th>타입</th>
+            <th>수정하기</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td scope="row"><a th:href="@{/users/{id}(id=${user.id})}"><span th:text="${user.id}"></span></a></td>
+                <td><span th:text="${user.name}"></span></td>
+                <td><span th:text="${user.type}"></span></td>
+                <td><a th:href="@{/users/edit-user/{id}(id=${user.id})}">수정하기</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <a th:href="@{users/new-user}">유저 생성 하기</a>
+</body>
+</html>
