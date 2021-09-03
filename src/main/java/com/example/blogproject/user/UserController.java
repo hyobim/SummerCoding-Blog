@@ -1,7 +1,11 @@
 package com.example.blogproject.user;
 
+import com.example.blogproject.user.form.LoginForm;
+import com.example.blogproject.user.form.SignUpForm;
 import com.example.blogproject.user.form.UserForm;
+import com.example.blogproject.user.validator.SignUpFormValidator;
 import com.example.blogproject.user.validator.UserFormValidator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -15,21 +19,40 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class UserController {
-
     private final UserService userService;
     private final UserFormValidator userFormValidator;
-
+    private final SignUpFormValidator signUpFormValidator;
     @InitBinder("userForm")
     public void initBinderUserForm(WebDataBinder webDataBinder){
         webDataBinder.addValidators(userFormValidator);
     }
-
-    public UserController(UserService userService, UserFormValidator userFormValidator) {
-        this.userService = userService;
-        this.userFormValidator = userFormValidator;
+    @InitBinder("signUpForm")
+    public void initBinderSignUpForm(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(signUpFormValidator);
     }
 
+    @GetMapping("/login")
+    public String login(Model model){
+        model.addAttribute("loginForm",new LoginForm());
+        return "users/login";
+    }
+
+    @GetMapping("/sign-up")
+    public String signUp(Model model){
+        model.addAttribute("signUpForm", new SignUpForm());
+        return "users/sign-up";
+    }
+    @PostMapping("/sign-up")
+    public String signUp(@Valid SignUpForm signUpForm,Errors errors){
+        if (errors.hasErrors()) {
+            return "users/sign-up";
+        }
+        User user= userService.createUser(signUpForm);
+        userService.login(user, signUpForm.getPassword());
+        return "redirect:/";
+    }
     @GetMapping("/")
     public String home(){
         return "home";
@@ -64,12 +87,14 @@ public class UserController {
         if(errors.hasErrors()){
             return "users/new-user";
         }
-        User user= new User(
-                userForm.getId(),
-                userForm.getName(),
-                userForm.getType()
-        );
+        User user = User.builder()
+                .name(userForm.getName())
+                .username(userForm.getName())
+                .type(UserType.ROLE_USER)
+                .password("root")
+                .build();
         userService.save(user);
+
         return "redirect:/users";
     }
     //유저 수정 // POST/users/user_id
@@ -85,11 +110,7 @@ public class UserController {
     }
     @PostMapping("/users/edit-user/{userId}")
     public String editUser(@PathVariable Long userId, UserForm userForm){
-        User user = userService.findById(userId);
-        user.setId(userForm.getId());
-        user.setName(userForm.getName());
-        user.setType(userForm.getType());
-
+        userService.update(userId,userForm);
         return "redirect:/users";
     }
 }

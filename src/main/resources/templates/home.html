@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments :: head"></head>
 <body>
-<a th:href="@{users}">User 목록 페이지</a>
-<a th:href="@{posts}">Post 목록 페이지</a>
+<div th:replace="fragments :: main-nav"></div>
+
+
 </body>
 </html>

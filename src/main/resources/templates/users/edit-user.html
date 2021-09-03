@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
 <body>
-    <form method="post" th:action="@{/users/edit-user/{id}(id=${userForm.id})}" th:object="${userForm}">
-        <label for="id">ID : </label>
-        <input type="text" name="id" id="id" th:field="*{id}">
+<div th:replace="fragments :: main-nav"></div>
 
+<div class="container">
+    유저 수정
+
+    <form method="post" th:action="@{/edit-user/{id}(id = ${userForm.id})}" th:object="${userForm}">
         <label for="name">이름 : </label>
         <input type="text" name="name" id="name" th:field="*{name}">
 
@@ -17,5 +16,6 @@
 
         <button type="submit" name="submit" value="value">수정하기</button>
     </form>
+</div>
 </body>
 </html>

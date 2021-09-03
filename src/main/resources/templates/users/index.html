@@ -1,28 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
 <body>
+<div th:replace="fragments :: main-nav"></div>
+
+<div class="container">
     <table class="table">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>이름</th>
-            <th>타입</th>
-            <th>수정하기</th>
+            <th scope="col">ID</th>
+            <th scope="col">이름</th>
+            <th scope="col">타입</th>
+            <th scope="col">수정하기</th>
         </tr>
         </thead>
         <tbody>
-            <tr th:each="user : ${users}">
-                <td scope="row"><a th:href="@{/users/{id}(id=${user.id})}"><span th:text="${user.id}"></span></a></td>
-                <td><span th:text="${user.name}"></span></td>
-                <td><span th:text="${user.type}"></span></td>
-                <td><a th:href="@{/users/edit-user/{id}(id=${user.id})}">수정하기</a></td>
-            </tr>
+        <tr th:each="user : ${users}">
+            <td scope="row"><a th:href="@{/user/{id}(id = ${user.id})}"><span th:text="${user.id}"></span></a></td>
+            <td><span th:text="${user.name}"></span></td>
+            <td><span th:text="${user.type}"></span></td>
+            <td><a th:href="@{/edit-user/{id}(id = ${user.id})}">수정하기</a></td>
+        </tr>
         </tbody>
     </table>
-    <a th:href="@{users/new-user}">유저 생성 하기</a>
+
+    <a th:href="@{/new-user}">유저 생성하기</a>
+</div>
 </body>
 </html>

@@ -1,38 +1,30 @@
 package com.example.blogproject.user;
 
+import com.example.blogproject.post.Post;
+import lombok.*;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Builder
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String username;
+    private String password;
+
     private String name;
-    private String type;
 
-    public User(Long id, String name, String type) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-    }
-    public Long getId() {
-        return id;
-    }
+    @Enumerated(EnumType.STRING)
+    private UserType type;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
 
 }
